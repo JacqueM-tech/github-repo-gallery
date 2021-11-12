@@ -1,7 +1,7 @@
 // This div is where your profile information will appear
 const overview = document.querySelector(".overview");
 const username = "JacqueM-tech";
-const repoList = document.querySelector("repo-list");
+const repoList = document.querySelector(".repo-list");
 
 // async function to fetch information from my GitHub profile using the GitHub API address: https://api.github.com. Target the “users” endpoint and use a template literal to add the global username variable to the endpoint: users/${username}
 const getProfileInfo = async function () {
@@ -30,15 +30,26 @@ const displayProfileInfo = function (data) {
 // Append the div to the overview element.
 
     overview.append(div);
+    getReposList();
 };
 
 // At the bottom of your code, create and name a new async function to fetch your repos. Use the List Repositories of User(opens in a new tab) section of the documentation to find the endpoints for your API URL to fetch the list of repos.
 const getReposList = async function () {
-    const reposList = await fetch (`https://api.github.com/users/${username}/repos?sort=update&per_page=100`); 
+    const reposList = await fetch (`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`); 
+// Your second await statement should return the JSON response. Log out the response and call the function. 
     const repoData = await reposList.json();
-    // displayReposList(repoData);
+     console.log(repoData);
+    repoInfo(repoData);
 };
-// getReposList();
+ 
+// Below the async function fetching the repos, create and name a function to display information about each repo. Use repos as a parameter so that the function accepts the data returned from your last API call. Inside the function, loop and create a list item for each repo and give each item: A class of “repo” and An <h3> element with the repo name. Append the list item to the global variable that selects the unordered repos list. 
+    const repoInfo = function (repos) {
+        for (const allRepos of repos) {
+        const list = document.createElement("li"); 
+        list.classList.add("allRepos");
+        list.innerHTML = `<h3>${allRepos.name}</h3>`;
+        repoList.append(list);
+        }
+    };
 
-const repoInfo = function (repos) {};
 
