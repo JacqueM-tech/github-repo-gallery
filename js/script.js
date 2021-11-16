@@ -3,7 +3,9 @@ const overview = document.querySelector(".overview");
 const username = "JacqueM-tech";
 const repoList = document.querySelector(".repo-list");
 const repoInfoSection = document.querySelector(".repos");
-const repoDataSection = document.querySelector(".repo-data")
+const repoDataSection = document.querySelector(".repo-data");
+const repoGallery = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 // async function to fetch information from my GitHub profile using the GitHub API address: https://api.github.com. Target the “users” endpoint and use a template literal to add the global username variable to the endpoint: users/${username}
 const getProfileInfo = async function () {
@@ -86,7 +88,7 @@ const getRepoInfo = async function (repoName) {
     displayRepoInfo(repoInfo, languages);
 };
 // Below the async function create and name a new function to display the specific repo information. The function should accept two parameters:  repoInfo and languages.Inside the function, empty the HTML of the section with a class of “repo-data” where the individual repo data will appear.Create a new div element and add the selected repository’s name, description, default branch, and link to its code on GitHub.Inside the 5 placeholders, use the JSON data to grab the relevant properties to display on the page. Use the properties from the object you retrieved when you fetched the specific repos. Hint: You want the URL to the repo on GitHub, not the repo’s API address.Append the new div element to the section with a class of “repo-data”. Unhide (show) the “repo-data” element. Hide the element with the class of “repos”.
-const displayRepoInfo = function (repoInfoSection, languages) {
+const displayRepoInfo = function (repoInfo, languages) {
     repoDataSection.innerHTML = "";
     repoDataSection.classList.remove("hide");
     repoInfoSection.classList.add("hide");
