@@ -4,7 +4,7 @@ const username = "JacqueM-tech";
 const repoList = document.querySelector(".repo-list");
 const repoInfoSection = document.querySelector(".repos");
 const repoDataSection = document.querySelector(".repo-data");
-const repoGallery = document.querySelector(".view-repos");
+const viewGalleryButton = document.querySelector(".view-repos");
 const filterInput = document.querySelector(".filter-repos");
 
 // async function to fetch information from my GitHub profile using the GitHub API address: https://api.github.com. Target the “users” endpoint and use a template literal to add the global username variable to the endpoint: users/${username}
@@ -46,16 +46,17 @@ const getReposList = async function () {
     displayRepos(repoDataSection);
 };
  
-// Below the async function fetching the repos, create and name a function to display information about each repo. Use repos as a parameter so that the function accepts the data returned from your last API call. Inside the function, loop and create a list item for each repo and give each item: A class of “repo” and An <h3> element with the repo name. Append the list item to the global variable that selects the unordered repos list. 
+// Below the async function fetching the repos, create and name a function to display information about each repo. Use repos as a parameter so that the function accepts the data returned from your last API call. Inside the function, loop and create a list item for each repo and give each item: A class of “repo” and An <h3> element with the repo name. Append the list item to the global variable that selects the unordered repos list.At the top of the function that displays all your repos, show the filterInput element.  
     const displayRepos = function (repos) {
-        for (const allRepos of repos) {
+        filterInput.classList.remove("hide");
+        for (const repo of repos) {
         const repoItem = document.createElement("li"); 
-        repoItem.classList.add("allRepos");
-        repoItem.innerHTML = `<h3>${allRepos.name}</h3>`;
+        repoItem.classList.add("repo");
+        repoItem.innerHTML = `<h3>${repo.name}</h3>`;
         repoList.append(repoItem);
         }
     };
-// At the bottom of your code, create an event listener called repoList for a click event on the unordered list with a class of “repo-list.” Pass the event (e) in the callback function. Add a conditional statement to check if the event target (i.e., the element that was clicked on) matches the <h3> element (i.e., the name of the repo): if (e.target.matches("h3")).In the body of the conditional statement, create a variable called repoName to target the innerText where the event happens. Log out the variable to the console. Try clicking on a few repo names to see if your event listener is working as expected.
+// Create an event listener called repoList for a click event on the unordered list with a class of “repo-list.” Pass the event (e) in the callback function. Add a conditional statement to check if the event target (i.e., the element that was clicked on) matches the <h3> element (i.e., the name of the repo): if (e.target.matches("h3")).In the body of the conditional statement, create a variable called repoName to target the innerText where the event happens. Log out the variable to the console. Try clicking on a few repo names to see if your event listener is working as expected.
 
 repoList.addEventListener("click", function(e) {
     if (e.target.matches("h3")) {
@@ -102,6 +103,30 @@ const displayRepoInfo = function (repoInfo, languages) {
     <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
 
     repoDataSection.append(div);
+    viewGalleryButton.classList.remove("hide");
 };
 
+// At the bottom of your code, create a click event listener attached to your variable that points to the Back to Repo Gallery button. In the body of the callback function, unhide (display) the section with the class of “repos”, the location where all the repo information appears. Add the “hide” class to the section where the individual repo data will appear. Also, add the “hide” class to the Back to Repo Gallery button itself. In the function responsible for displaying the individual repo information, remove the class of “hide” from the Back to Repo Gallery button.
+viewGalleryButton.addEventListener("click", function () {
+    repoInfoSection.classList.remove("hide");
+    repoDataSection.classList.add("hide");
+    viewGalleryButton.classList.add("hide"); 
+
+}); 
+
+// Add an Input Event to the Search Box. At the bottom of your code, attach an "input" event listener to filterInput. Pass the event (e) the callback function.Inside the callback function, create a variable to capture the value of the search text. Log out the variable and enter some text in the input to ensure that you’ve successfully captured it. Create a variable called repos to select ALL elements on the page with a class of “repo”.Create a variable and assign it to the lowercase value of the search text. Loop through each repo inside your repos element. Inside the loop, create a variable and assign it to the lowercase value of the innerText. of each repo.Check to see if the lowercase repo text includes the lowercase search text. If the repo contains the text, show it. If it doesn’t contain the text, hide the repo.
+filterInput.addEventListener("input", function(e) {
+    const searchText = e.target.value;
+    // console.log(searchText);
+    const repos = document.querySelectorAll(".repo");
+    const searchLowerText = searchText.toLowerCase();
+    for (const repo of repos){ 
+        const repoLowerText = repo.innerText.toLowerCase();
+    if (repoLowerText.includes(searchLowerText)) {
+        repo.classList.remove("hide");
+    } else {
+        repo.classList.add("hide");
+     }
+    }
+});
 
